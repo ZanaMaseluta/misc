@@ -1,0 +1,36 @@
+/* Code snippet from a simulation of a FTP server,
+function creating a map containing <string, string> pairs,
+representing <username, password>. */
+
+
+void buildUserMap(map<string, string> &map, char* filename){
+
+    int N, status;
+    string user, pass;
+    string path; 
+
+   
+    ifstream in (filename);
+    if (in.is_open()) {
+        in >> N;
+        for(int i=1; i<=N; i++) {
+            in >> user >> pass;
+            users.push_back(user);
+            map.insert( pair<string, string> (user,pass));
+            path = "./" + user;
+            //make directories for each new user
+            status = mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+            /*if(status < 0){
+              perror("Error creating directory");
+            }*/
+        }
+        in.close();
+    } else
+        perror("Unable to open file");
+}
+
+
+
+
+
+
